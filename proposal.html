@@ -109,22 +109,50 @@ Philippine Association for Government Budget Administration</p>
 
     <!-- Form Section -->
     <h2>Your Response</h2>
-    <form>
-      <label for="name">Full Name:</label>
-      <input type="text" id="name" name="name" placeholder="Enter your full name" required />
-
-      <label for="position">Enter your Position:</label>
-      <input type="text" id="position" name="position" placeholder="Enter your Position" required />
-
-      <label for="vote">Do you support this proposal?</label>
-      <select id="vote" name="vote" required>
-        <option value="" disabled selected>-- Select an Option --</option>
-        <option value="Yes">✅ Yes – I support the proposal</option>
-        <option value="No">❌ No – I do not support the proposal</option>
-      </select>
-
-      <button type="submit">Submit Response</button>
-    </form>
+      <form id="voteForm">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter your full name" required />
+      
+        <label for="position">Enter your Position:</label>
+        <input type="text" id="position" name="position" placeholder="Enter your Position" required />
+      
+        <label for="vote">Do you support this proposal?</label>
+        <select id="vote" name="vote" required>
+          <option value="" disabled selected>-- Select an Option --</option>
+          <option value="Yes">✅ Yes – I support the proposal</option>
+          <option value="No">❌ No – I do not support the proposal</option>
+        </select>
+      
+        <button type="submit">Submit Response</button>
+      </form>
+      
+      <script>
+      const scriptURL = "https://script.google.com/macros/s/AKfycbydf_pWXPOXxrR8s_3L9WmS147I1Hm8q3_h9fl5jD9f3Py_rnqYTOwI95-AeP4ndE2-/exec"; // replace with Apps Script Web App URL
+      const form = document.getElementById("voteForm");
+      
+      form.addEventListener("submit", e => {
+        e.preventDefault();
+        const data = {
+          name: form.name.value,
+          position: form.position.value,
+          vote: form.vote.value
+        };
+      
+        fetch(scriptURL, {
+          method: 'POST',
+          body: JSON.stringify(data)
+        })
+        .then(res => {
+          if (res.ok) {
+            alert("✅ Thank you! Your response has been recorded.");
+            form.reset();
+          } else {
+            alert("⚠️ Submission failed, please try again.");
+          }
+        })
+        .catch(err => alert("⚠️ Error: " + err));
+      });
+      </script>
   </div>
 </body>
 </html>
